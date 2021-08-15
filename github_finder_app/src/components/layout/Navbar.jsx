@@ -1,14 +1,18 @@
-import React from 'react'
+import React from 'react';
+import {Link, NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function Navbar(props){
 
     return (
      <nav className='navbar bg-primary'>
-
          <h1>
             <i className={props.icon} /> {props.title}
          </h1>
+         <ul>
+             <NavLink to='/'>Home</NavLink> 
+             <NavLink to='/about'>About</NavLink> 
+         </ul>
      </nav>
     );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 function UserItem(props) {
 
@@ -11,7 +12,7 @@ function UserItem(props) {
                 alt=''/>
             <h3>{props.user.login}</h3>
             <div>
-                <a href={props.user.html_url} className='bn btn-dark btn-sm my-1'>More</a>
+                <Link to={`/user/${props.user.login}`} className='bn btn-dark btn-sm my-1'>More</Link>
             </div>
         </div>
     )
