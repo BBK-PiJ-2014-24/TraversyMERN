@@ -1,8 +1,9 @@
-import React  from 'react';
+import React, {useContext}  from 'react';
 // short cut rce
 import UserItem from './UserItem';
 import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
+import GithubContext from '../../context/github/githubContext';
 
 
 const userListStyle = {
@@ -13,13 +14,14 @@ const userListStyle = {
 
 function UsersList(props) {
 
+    const githubContext = useContext(GithubContext);
 
-        if(props.loading){
+        if(githubContext.loading){
             return <Spinner />
         } else { 
         return (
             <div style={userListStyle}>
-                {props.users.map( u => (
+                {githubContext.users.map( u => (
                     <UserItem key={u.id} 
                                 user={u}
                     />
@@ -30,9 +32,9 @@ function UsersList(props) {
    
 }
 
-UsersList.propTypes ={
-    users: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired
-}
+// UsersList.propTypes ={
+//     users: PropTypes.array.isRequired,
+//     loading: PropTypes.bool.isRequired
+// }
 
 export default UsersList;

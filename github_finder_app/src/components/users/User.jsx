@@ -1,73 +1,72 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, useContext, Fragment } from 'react';
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
 import RepoList from '../repos/RepoList';
+import GithubContext from '../../context/github/githubContext';
 
-class User extends Component {
+function User(props){ 
 
-    static propTypes = {
-        loading: PropTypes.bool,
-        user: PropTypes.object.isRequired,
-        getUser: PropTypes.func.isRequired,
-        getUserRepos: PropTypes.func.isRequired,
-        repos: PropTypes.array.isRequired,
-    }
+    const githubContext = useContext(GithubContext);
 
-    componentDidMount() {
-        this.props.getUser(this.props.match.params.login);
-        this.props.getUserRepos(this.props.match.params.login);
-    }
+    const {login} = props.match.params;
 
-    render() {
-        if(this.props.loading) return <Spinner />;
+    
+    useEffect(()=>{
+        githubContext.getUser(login);
+        githubContext.getUserRepos(login);
+        //eslint-disable-next-line
+    }, []);
+
+
+        if(githubContext.loading) return <Spinner />;
         return( 
             <Fragment>
                <Link to='/' className='btn btn-light'>Back to Search</Link>
                Hireable: {' '}
-               {this.props.user.hireable ? 
+               {githubContext.user.hireable ? 
                     <i className='fas fa-check text-success' /> :
                     <i className='fas fa-times-circle text-danger' />
                }
                <div className='card grid-2'>
                    <div className='all-center'>
-                        <img src={this.props.user.avatar_url}
+                        <img src={githubContext.user.avatar_url}
                              className='round-img' 
                              style={{width: '150px'}}
                              alt='pic' />
-                        <h1>{this.props.user.name}</h1>
-                        <p>Location: {this.props.user.location}</p>
+                        <h1>{githubContext.user.name}</h1>
+                        <p>Location: {githubContext.user.location}</p>
                    </div>
                    <div>
-                       {this.props.user.bio &&
+                       {githubContext.user.bio &&
                             <Fragment>
                                 <h3>Bio</h3>
-                                <p>{this.props.user.bio}</p>
+                                <p>{githubContext.user.bio}</p>
                             </Fragment>
                        }
-                       <Link to={this.props.user.html_url} 
+                       <Link to={githubContext.user.html_url} 
                              className='btn btn-dark my-1'>
                              Visit Github Page
                         </Link>
                         <ul>
                             <li>
-                               {this.props.user.login && 
+                               {githubContext.user.login && 
                                 <Fragment>
-                                    <strong>Username:</strong> {this.props.user.login}
+                                    <strong>Username:</strong> {githubContext.user.login}
                                 </Fragment>
                                } 
                             </li>
                             <li>
-                               {this.props.user.company && 
+                               {githubContext.user.company && 
                                 <Fragment>
-                                    <strong>Company:</strong> {this.props.user.company}
+                                    <strong>Company:</strong> {githubContext.user.company}
                                 </Fragment>
                                } 
                             </li>
                             <li>
-                               {this.props.user.blog && 
+                               {githubContext.user.blog && 
                                 <Fragment>
-                                    <strong>Website:</strong> {this.props.user.blog}
+                                    <strong>Website:</strong> {githubContext.user.blog}
                                 </Fragment>
                                } 
                             </li>
@@ -76,22 +75,28 @@ class User extends Component {
                </div>
                <div className='card text-center'>
                    <div className='badge badge-primary'>
-                       Followers: {this.props.user.followers}
+                       Followers: {githubContext.user.followers}
                    </div>
                    <div className='badge badge-success'>
-                       Following: {this.props.user.following}
+                       Following: {githubContext.user.following}
                    </div>
                    <div className='badge badge-light'>
-                       Public Repos: {this.props.user.public_repos}
+                       Public Repos: {githubContext.user.public_repos}
                    </div>
                    <div className='badge badge-dark'>
-                       Public Gists: {this.props.user.public_gists}
+                       Public Gists: {githubContext.user.public_gists}
                    </div>
                </div>
-               <RepoList repos={this.props.repos} />
+               <RepoList repos={githubContext.repos} />
             </Fragment>
         )
-    }
 }
 
+User.propTypes = {
+    // loading: PropTypes.bool,
+    // user: PropTypes.object.isRequired,
+    // getUser: PropTypes.func.isRequired,
+    // getUserRepos: PropTypes.func.isRequired,
+    // repos: PropTypes.array.isRequired,
+}
 export default User;
