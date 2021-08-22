@@ -9,17 +9,17 @@ import Alert from './components/layout/Alert';
 import About from './components/pages/About';
 import User from './components/users/User';
 import GithubState from './context/github/GithubState';
+import AlertState from './context/alert/AlertState';
+import Home from './components/pages/Home';
+import PageNotFound from './components/pages/PageNotFound';
 
 function App() {
 
   // const [user, setUser] = useState({});
   // const [users, setUsers] = useState([]);
   // const [repos, setRepos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
-
-
-
+  // const [loading, setLoading] = useState(false);
+  // const [alert, setAlert] = useState(null);
 
     // async componentDidMount() {
     //   this.setState({loading: true})
@@ -34,14 +34,9 @@ function App() {
 
 
 
-    //set Alert
-    const showAlert = (msg, type) => {
-        setAlert({msg:msg, type:type});
-        setTimeout(()=>{setAlert(null)}, 3000);
-    }
-
   return (
   <GithubState>
+  <AlertState>
 
   <BrowserRouter>
     <div className="App">
@@ -49,24 +44,17 @@ function App() {
               icon='fab fa-github'  
       />
       <div className='container'>
-        <Alert alert={alert} />
+        <Alert />
         <Switch>
-          <Route exact path='/' 
-                render={props => (
-                  <Fragment>
-                    <Search setAlert={showAlert} />
-                    <UsersList />
-                  </Fragment>
-                )} 
-          />
+          <Route exact path='/' component={Home} />
           <Route exact path='/about' component={About} />
-          <Route exact path='/user/:login' 
-                       component={User}
-          />   
+          <Route exact path='/user/:login' component={User} />   
+          <Route component={PageNotFound} />
         </Switch>
       </div>
     </div>
   </BrowserRouter>  
+  </AlertState>
   </GithubState>  
 );
 }

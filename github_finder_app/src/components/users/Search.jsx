@@ -1,10 +1,13 @@
 import React, {  useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import GithubContext from '../../context/github/githubContext';
+import AlertContext from '../../context/alert/alertContext';
 
 function Search(props) {
 
    const githubContext = useContext(GithubContext); 
+   const alertContext = useContext(AlertContext);
+
    const [text, setText] = useState('');
 
    const onChange = (e) => {
@@ -14,7 +17,7 @@ function Search(props) {
    const onSubmit = (e) => {
         e.preventDefault();
         if(text === ''){
-            props.setAlert('Empty Query!', 'light');
+            alertContext.setAlert('Empty Query!', 'light');
         } else {
             githubContext.searchUsers(text);
             setText('');

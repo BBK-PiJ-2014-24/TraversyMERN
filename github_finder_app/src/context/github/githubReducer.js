@@ -9,32 +9,32 @@ import {
 } from '../types';
 
 
-export default (state, action) => {
+const githubReducer = (state, action) => {
     switch(action.type){
-        case 'SEARCH_USERS':
+        case SEARCH_USERS:
             return {
                 ...state,
                 users: action.payload,
                 loading: false
             }
-        case 'GET_USER':
+        case GET_USER:
             return {
                 ...state,
                 user: action.payload,
                 loading: false
             }    
-        case 'SET_LOADING': 
+        case SET_LOADING: 
             return {
                 ...state,
                 loading: false
             }
-        case 'CLEAR_USERS':
+        case CLEAR_USERS:
             return {
                 ...state,
                 users: [],
                 loading: false
             }    
-        case 'GET_REPOS':
+        case GET_REPOS:
             return {
                 ...state,
                 repos: action.payload,
@@ -45,3 +45,4 @@ export default (state, action) => {
     }
 };
 
+export default githubReducer;
