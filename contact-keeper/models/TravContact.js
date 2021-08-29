@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const travContactSchema = mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'travusers'
+    },
     name: {
         type: String,
         required: true

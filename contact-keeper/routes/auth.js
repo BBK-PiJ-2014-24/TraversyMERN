@@ -69,6 +69,7 @@ router.post('/', [validationList], async (req, res) => {
 
         jwt.sign(payload, config.get('jwtSecret'), jwtConfig, (err, token)=>{
             if(err) throw err;
+            console.log('logged In', email);
             res.json({token});
         } );
 
