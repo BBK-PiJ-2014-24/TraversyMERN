@@ -31,7 +31,11 @@ const ContactForm = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    contactContext.addContact(contact);
+    if (contactContext.currentContact) {
+      contactContext.updateContact(contact);
+    } else {
+      contactContext.addContact(contact);
+    }
     setContact(initialState);
   };
 
