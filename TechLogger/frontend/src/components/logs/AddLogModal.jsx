@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { addLog } from "../../actions/logActions";
 import M from "materialize-css/dist/js/materialize";
+import TechSelectOption from "../techs/TechSelectOption";
 
-const AddLogModal = () => {
+const AddLogModal = ({ addLog }) => {
   const [message, setMessage] = useState("");
   const [attention, setAttention] = useState(false);
   const [tech, setTech] = useState("");
@@ -23,6 +27,20 @@ const AddLogModal = () => {
       M.toast({ html: "Please Enter Message and Technician" });
     } else {
       console.log("Submited", message, tech, attention);
+      const newLog = {
+        message,
+        attention,
+        tech,
+        date: new Date(),
+      };
+
+      // add Log via reducer
+      addLog(newLog);
+
+      // Raise a toast
+      M.toast({ html: `Log Added by ${tech}` });
+
+      // clear form
       setMessage("");
       setAttention(false);
       setTech("");
@@ -57,9 +75,7 @@ const AddLogModal = () => {
               <option value="" disabled>
                 Select Technician
               </option>
-              <option value="John Joe">John Doe</option>
-              <option value="Sam Smith">Sam Smith</option>
-              <option value="Sara Wilts">Sara Wilts</option>
+              <TechSelectOption />
             </select>
           </div>
         </div>
@@ -98,4 +114,9 @@ const modalStyle = {
   height: "75%",
 };
 
-export default AddLogModal;
+AddLogModal.propTypes = {
+  addLog: PropTypes.func.isRequired,
+};
+
+// State is not brought in via props, so MapStateToProps is not used and left as null
+export default connect(null, { addLog })(AddLogModal);
