@@ -37,6 +37,7 @@ const ContactForm = (props) => {
       contactContext.addContact(contact);
     }
     setContact(initialState);
+    clearAll();
   };
 
   const clearAll = () => {

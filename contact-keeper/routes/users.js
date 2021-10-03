@@ -5,7 +5,7 @@ const config = require('config');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const User = require('../models/TravContact');
+const User = require('../models/TravUser');
 
 
 const validationList = [
@@ -26,7 +26,6 @@ router.post('/', validationList, async (req, res) => {
         return res.status(400)
                   .json({errors: errors.array()});
     }
-
     const {name, email, password} = req.body;
     try {
         let user = await User.findOne({email});

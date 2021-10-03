@@ -35,6 +35,7 @@ router.post('/', [auth, validation], async (req, res) => {
     }
     // get data  from req body
     const {name, email, phone, type} = req.body;
+    console.log("name", name); // +++++++=====+++++++=
 
     // prepare data as obj to insert into db
     try {
